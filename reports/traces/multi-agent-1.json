@@ -1,0 +1,69 @@
+{
+  "query": "Research GraphRAG state-of-the-art and write a 500-word summary",
+  "route_history": [
+    "researcher",
+    "analyst",
+    "writer",
+    "done"
+  ],
+  "trace": [
+    {
+      "name": "route",
+      "payload": {
+        "next": "researcher",
+        "iteration": 1
+      }
+    },
+    {
+      "name": "researcher",
+      "payload": {
+        "provider": "openrouter",
+        "source_count": 5,
+        "duration_seconds": 11.263344959006645
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "analyst",
+        "iteration": 2
+      }
+    },
+    {
+      "name": "analyst",
+      "payload": {
+        "provider": "openrouter",
+        "duration_seconds": 7.303049875015859
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "writer",
+        "iteration": 3
+      }
+    },
+    {
+      "name": "writer",
+      "payload": {
+        "provider": "openrouter",
+        "valid_citations": 5,
+        "duration_seconds": 8.04738629196072
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "done",
+        "iteration": 4
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 7486,
+    "output_tokens": 1959,
+    "estimated_cost_usd": 0.0022983,
+    "retries": 0
+  },
+  "errors": []
+}

@@ -1,0 +1,22 @@
+{
+  "query": "Compare single-agent and multi-agent workflows for customer support",
+  "route_history": [],
+  "trace": [
+    {
+      "name": "baseline",
+      "payload": {
+        "provider": "openrouter",
+        "source_count": 5,
+        "valid_citations": 4,
+        "duration_seconds": 6.553262458008248
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 1847,
+    "output_tokens": 607,
+    "estimated_cost_usd": 0.00064125,
+    "retries": 0
+  },
+  "errors": []
+}

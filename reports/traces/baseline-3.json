@@ -1,0 +1,22 @@
+{
+  "query": "Summarize production guardrails for LLM agents",
+  "route_history": [],
+  "trace": [
+    {
+      "name": "baseline",
+      "payload": {
+        "provider": "openrouter",
+        "source_count": 5,
+        "valid_citations": 5,
+        "duration_seconds": 12.160111999954097
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 1782,
+    "output_tokens": 638,
+    "estimated_cost_usd": 0.0006501,
+    "retries": 0
+  },
+  "errors": []
+}

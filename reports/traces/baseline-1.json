@@ -1,0 +1,22 @@
+{
+  "query": "Research GraphRAG state-of-the-art and write a 500-word summary",
+  "route_history": [],
+  "trace": [
+    {
+      "name": "baseline",
+      "payload": {
+        "provider": "openrouter",
+        "source_count": 5,
+        "valid_citations": 4,
+        "duration_seconds": 8.234367042023223
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 1890,
+    "output_tokens": 582,
+    "estimated_cost_usd": 0.0006327,
+    "retries": 0
+  },
+  "errors": []
+}

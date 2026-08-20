@@ -1,0 +1,69 @@
+{
+  "query": "Summarize production guardrails for LLM agents",
+  "route_history": [
+    "researcher",
+    "analyst",
+    "writer",
+    "done"
+  ],
+  "trace": [
+    {
+      "name": "route",
+      "payload": {
+        "next": "researcher",
+        "iteration": 1
+      }
+    },
+    {
+      "name": "researcher",
+      "payload": {
+        "provider": "openrouter",
+        "source_count": 5,
+        "duration_seconds": 5.5479054159950465
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "analyst",
+        "iteration": 2
+      }
+    },
+    {
+      "name": "analyst",
+      "payload": {
+        "provider": "openrouter",
+        "duration_seconds": 6.802077209053095
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "writer",
+        "iteration": 3
+      }
+    },
+    {
+      "name": "writer",
+      "payload": {
+        "provider": "openrouter",
+        "valid_citations": 5,
+        "duration_seconds": 11.152930500044022
+      }
+    },
+    {
+      "name": "route",
+      "payload": {
+        "next": "done",
+        "iteration": 4
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 6537,
+    "output_tokens": 1583,
+    "estimated_cost_usd": 0.00193035,
+    "retries": 0
+  },
+  "errors": []
+}

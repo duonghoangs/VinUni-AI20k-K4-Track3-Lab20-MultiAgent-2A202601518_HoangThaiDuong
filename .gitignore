@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .env
 .pytest_cache/
+.coverage
 .ruff_cache/
 .mypy_cache/
 dist/
@@ -10,4 +11,5 @@ build/
 *.egg-info/
 reports/*.json
 reports/*.md
+!reports/benchmark_report.md
 !.gitkeep

@@ -1,8 +1,9 @@
-# Lab 20: Multi-Agent Research System Starter
+# Lab 20: Multi-Agent Research System
 
-Starter repo cho bài lab **Multi-Agent Systems**: xây dựng hệ thống nghiên cứu gồm **Supervisor + Researcher + Analyst + Writer** và benchmark với single-agent baseline.
+Project bài lab **Multi-Agent Systems**: hệ thống nghiên cứu gồm **Supervisor + Researcher + Analyst + Writer** và benchmark với single-agent baseline.
 
-> Mục tiêu của repo này là cung cấp **production-grade skeleton** để học viên phát triển code cá nhân. Các phần logic quan trọng được để ở dạng `TODO` để học viên tự triển khai.
+> Project chạy offline end-to-end bằng corpus đi kèm và tự động dùng model OpenAI qua OpenRouter
+> khi có `OPENROUTER_API_KEY`.
 
 ## Learning outcomes
 
@@ -34,16 +35,16 @@ Trace + Benchmark Report
 ```text
 .
 ├── src/multi_agent_research_lab/
-│   ├── agents/              # Agent interfaces + skeletons
+│   ├── agents/              # Agent interfaces + implementations
 │   ├── core/                # Config, state, schemas, errors
-│   ├── graph/               # LangGraph workflow skeleton
+│   ├── graph/               # LangGraph workflow
 │   ├── services/            # LLM, search, storage clients
-│   ├── evaluation/          # Benchmark/evaluation skeleton
+│   ├── evaluation/          # Benchmark/evaluation
 │   ├── observability/       # Logging/tracing hooks
 │   └── cli.py               # CLI entrypoint
 ├── configs/                 # YAML configs for lab variants
 ├── docs/                    # Lab guide, rubric, design notes
-├── tests/                   # Unit tests for skeleton behavior
+├── tests/                   # Unit and end-to-end tests
 ├── notebooks/               # Optional notebook entrypoint
 ├── scripts/                 # Helper scripts
 ├── .env.example             # Environment variables template
@@ -68,7 +69,8 @@ cp .env.example .env
 Mở `.env` và điền key cần thiết.
 
 ```bash
-OPENAI_API_KEY=...
+OPENROUTER_API_KEY=...
+OPENROUTER_MODEL=openai/gpt-4o-mini
 # optional
 LANGSMITH_API_KEY=...
 TAVILY_API_KEY=...
@@ -78,32 +80,48 @@ TAVILY_API_KEY=...
 
 ```bash
 make test
+make doctor
 python -m multi_agent_research_lab.cli --help
 ```
 
-### 4. Chạy baseline skeleton
+`make doctor` kiểm tra OpenRouter, model, corpus offline và LangSmith mà không in secret.
+
+### 4. Chạy baseline
 
 ```bash
 python -m multi_agent_research_lab.cli baseline \
   --query "Research GraphRAG state-of-the-art and write a 500-word summary"
 ```
 
-Lệnh này chỉ chạy khung baseline tối giản. Học viên cần tự triển khai logic LLM thực tế trong `src/multi_agent_research_lab/services/llm_client.py`.
+Khi có `OPENROUTER_API_KEY`, baseline dùng OpenRouter qua OpenAI-compatible SDK. Khi không có key
+hoặc provider lỗi, pipeline dùng fallback xác định trên corpus offline để vẫn chạy và test
+end-to-end.
 
-### 5. Chạy multi-agent skeleton
+### 5. Chạy multi-agent
 
 ```bash
 python -m multi_agent_research_lab.cli multi-agent \
   --query "Research GraphRAG state-of-the-art and write a 500-word summary"
 ```
 
-Mặc định lệnh sẽ báo các `TODO` cần làm. Đây là chủ đích của starter repo.
+Workflow chạy Supervisor, Researcher, Analyst và Writer qua LangGraph. Mỗi bước ghi shared state và
+trace cục bộ.
+
+### 6. Chạy benchmark
+
+```bash
+make benchmark
+```
+
+Lệnh chạy cùng bộ query qua baseline và multi-agent, tạo
+`reports/benchmark_report.md`, visual trace `reports/trace_evidence.svg` cùng JSON trace trong
+`reports/traces/`.
 
 ## Milestones trong 2 giờ lab
 
 | Thời lượng | Milestone | File gợi ý |
 |---:|---|---|
-| 0-15' | Setup, chạy baseline skeleton | `cli.py`, `services/llm_client.py` |
+| 0-15' | Setup, chạy baseline | `cli.py`, `services/llm_client.py` |
 | 15-45' | Build Supervisor / router | `agents/supervisor.py`, `graph/workflow.py` |
 | 45-75' | Thêm Researcher, Analyst, Writer | `agents/*.py`, `core/state.py` |
 | 75-95' | Trace + benchmark single vs multi | `observability/tracing.py`, `evaluation/benchmark.py` |
@@ -120,23 +138,15 @@ Mặc định lệnh sẽ báo các `TODO` cần làm. Đây là chủ đích c�
 - Không để agent chạy vô hạn: dùng `max_iterations`, `timeout_seconds`.
 - Có benchmark report thay vì chỉ demo output đẹp.
 
-## TODO chính cho học viên
+## Thành phần đã triển khai
 
-Tìm trong code các marker:
-
-```bash
-grep -R "TODO(student)" -n src tests docs
-```
-
-Các phần học viên cần tự làm:
-
-1. Implement LLM client.
-2. Implement web/search client hoặc mock search source.
-3. Implement routing decision trong Supervisor.
-4. Implement từng worker agent.
-5. Build LangGraph workflow.
-6. Thêm tracing provider thật: LangSmith, Langfuse hoặc OpenTelemetry.
-7. Viết benchmark report.
+1. OpenRouter client dùng OpenAI-compatible SDK với retry, timeout và usage accounting.
+2. Search client cho corpus offline gồm 30 chủ đề.
+3. Supervisor routing và max-iteration guard.
+4. Researcher, Analyst, Writer và Critic.
+5. LangGraph workflow end-to-end.
+6. JSON trace cục bộ và benchmark report tự động.
+7. Offline fallback để test không cần API key.
 
 ## Deliverables
 
